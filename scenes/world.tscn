@@ -1,0 +1,43 @@
+[gd_scene load_steps=8 format=3 uid="uid://dm3wcgox8kfd6"]
+
+[ext_resource type="Texture2D" uid="uid://b7p8npnssq6wh" path="res://icon.svg" id="1_paoja"]
+[ext_resource type="Script" path="res://scripts/Player.gd" id="2_mew3x"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8lwng"]
+albedo_texture = ExtResource("1_paoja")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_njmjm"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vv3cp"]
+material = SubResource("StandardMaterial3D_njmjm")
+size = Vector2(20, 20)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_ogjh6"]
+data = PackedVector3Array(10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0, -10, 10, 0, -10)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7fyk4"]
+
+[node name="World" type="Node3D"]
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_8lwng")
+mesh = SubResource("PlaneMesh_vv3cp")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_ogjh6")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+script = ExtResource("2_mew3x")
+
+[node name="Collision" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_7fyk4")
+
+[node name="Head" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="vertical" type="Node3D" parent="Player/Head"]
+
+[node name="Camera" type="Camera3D" parent="Player/Head/vertical"]
